@@ -1,0 +1,2 @@
+resole.conf
+zabbix_agentd.conf
