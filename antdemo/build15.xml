@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="antdemo" basedir="." >
+	<property name="compile" value="compiledir"></property>
+	<property name="jarfile" value="jarfiledir"></property>
+	<property name="hello3" value="hello3"></property>
+	<property name="hello4" value="hello4"></property>
+	
+	<target name="deleteFile">
+		<delete file="${jarfile}/antdemo-20120221.jar"></delete>
+	</target>
+	<target name="deletedir">
+			<delete dir="${jarfile}"></delete>
+	</target>
+	
+	
+	<target name="copyfile">
+			<copy file="src/ant1/HelloAnt.java" toFile="e:/HelloAnt2.java" ></copy>
+	</target>
+	
+	<target name="copydir">
+			<copy file="src/ant1/HelloAnt.java" toDir="e:/" ></copy>
+	</target>
+	
+	<target name="movefile">
+			<move file="src/ant1/HelloAnt8.java" toDir="e:/" ></move>
+	</target>
+	
+	
+	<target name="zipfile">
+			<zip destfile="${compile}/pa.zip" basedir="src/ant1/" ></zip>
+	</target>
+	
+	<target name="unzipfile">
+			<unzip dest="${compile}" src="${compile}/pa.zip" ></unzip>
+	</target>
+</project>

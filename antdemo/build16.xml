@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="antdemo" basedir="." >
+		
+	<target name="replacecontent">
+			<replace file="src/ant1/HelloAnt.java" token="public" value="private"></replace>
+	</target>
+	
+	<target name="copyjava">
+		<copy todir="compiledir">
+			<fileset dir="src">
+				<!-- 
+				<include name="*.java"/>
+				-->
+				<include name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+</project>

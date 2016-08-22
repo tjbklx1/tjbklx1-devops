@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="antdemo" basedir="." >
+	<property name="compile" value="compiledir"></property>
+	<property name="jarfile" value="jarfiledir"></property>	
+	
+	<target name="mycompile"  depends="mydir">
+			<javac srcdir="src" destdir="${compile}"></javac>           
+	</target>
+	<target name="mydir"  >
+			<mkdir dir="${compile}"/> 
+			<mkdir dir="${jarfile}"/> 
+	</target>
+	
+	<target name="mkjar" depends="mycompile">
+		<tstamp></tstamp>
+		<jar destfile="${jarfile}/antdemo-${DSTAMP}.jar" basedir="${compile}"></jar>
+	</target>
+	
+</project>

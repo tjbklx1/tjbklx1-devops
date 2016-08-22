@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="HubRebook" default="compile">
+	
+	<property name="jar.name" value="HubRebook.jar" />
+	
+	<!--  base directory for distribution target  -->
+	<property name="dist.home" value="D:/workspace_2012/HubRebook/dist" />
+	
+	<!--  base directory for compilation targets  -->
+	<property name="build.home" value="WebRoot/WEB-INF/" />
+	
+	<!--  The base directory for all libraries (jar) files  -->
+	<property name="lib.home" value="WebRoot/WEB-INF/lib" />
+
+	<target name="compile" depends="clean">
+		<pathconvert property="libs.project" pathsep=" " >
+			<mapper>
+				<chainedmapper>
+					<!--  remove absolute path  -->
+					<flattenmapper />
+					<globmapper  from ="*" to ="lib/*"/> 
+				</chainedmapper >
+			</mapper >
+			
+			<path>
+				<!--  lib.home contains all jar files, in several subdirectories  -->
+				<fileset dir="${lib.home}" >
+					<include name="*.jar" />
+				</fileset >
+			</path>
+		</pathconvert >
+		
+		<!--  create the jar  -->
+		<jar jarfile="${dist.home}/${jar.name}" >
+			<fileset dir="${build.home}/classes">
+				<include name="com/"/>
+			</fileset>
+			<!--  define MANIFEST.MF  -->
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Manifest-Version" value="0.1" />
+				<!--  finally, use the magically generated libs path  -->
+				<!-- 
+				<attribute name="Class-Path" value="${libs.project}" />
+				-->
+			</manifest >
+		</jar>
+	</target>
+	
+	<target name="clean">
+		<delete file="${dist.home}/HubRebook.jar"/>
+	</target>
+	
+	<property name="test.ip" value="10.6.159.130" />
+	<property name="test.host" value="" />
+	<property name="tom.dir" value="/opt/app/tomcat/tom.cc" />
+	<property name="test.dir" value="${tom.dir}/webapps/hubrebook" />
+	<property name="test.username" value="" />
+	<property name="test.password" value="" />
+	
+	<!-- test change -->
+	
+	<target name="test.web">
+		<echo message="部署测试环境..." />
+				
+		<scp todir="${test.host}@${test.ip}:${test.dir}" 
+			sftp="true" 
+			trust="yes" 
+			password="${test.password}" >
+			
+			<fileset dir="WebRoot" >
+				<!-- 不包括jar包-->
+				<!--
+				<exclude name="WEB-INF/lib/*.jar" />
+				 -->				
+			</fileset>
+		</scp>
+
+		<sshexec host="${test.ip}" 
+			username="${test.username}"  
+			password="${test.password}" 
+			trust="true" 
+			command="touch ${test.dir}/WEB-INF/web.xml"/> 
+		
+	</target>
+
+	<target name="restart" >
+		<sshexec host="${test.ip}" 
+			username="${test.username}"  
+			password="${test.password}" 
+			trust="true" 
+			command="source ~/.bash_profile; cd ${tom.dir}; bin/shutdown.sh" />
+		
+		<sleep seconds="3" />
+		
+		<sshexec host="${test.ip}" 
+			username="${test.username}"  
+			password="${test.password}" 
+			trust="true" 
+			command="source ~/.bash_profile; cd ${tom.dir};bin/startup.sh" />
+		
+	</target>
+
+	<target name="test" >
+		
+		<sshexec host="${test.ip}" 
+			username="${test.username}"  
+			password="${test.password}" 
+			trust="true" 
+			command="cd ${tom.dir}; ls -l" />
+		
+	</target>
+	
+</project>

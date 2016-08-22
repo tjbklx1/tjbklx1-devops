@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="helloant" basedir="." default="third">
+	
+	<property name="hello1" value="hello1"></property>
+	<property name="hello2" value="hello2"></property>
+    
+	<target name="init">
+     	<mkdir dir="${hello1}"/>       
+    </target>
+	<target name="second" depends="init" >
+		<mkdir dir="${hello2}"/>            
+	</target>
+	<target name="third" depends="second" >
+		<mkdir dir="hello"/>                 
+	</target>
+
+</project>

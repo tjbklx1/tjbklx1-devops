@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<project default="second">
+	
+	<target name="init">
+		<delete dir="helloworld" />
+	</target>
+
+	<target name="second">
+		<mkdir dir="helloworld" />
+	</target>
+
+</project>
